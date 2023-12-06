@@ -1,0 +1,15 @@
+:root{
+    --main-color: #1e88e5;
+    --bg-color : #eaeaea;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+}
+
+nav{
+    background-color: white;
+    padding: 10px 0px;
+}
