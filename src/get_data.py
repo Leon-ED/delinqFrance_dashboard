@@ -1,7 +1,6 @@
 import pandas as pd
 import requests
 import os
-from Model.OutputCSV import OutputCSV
 
 FILE_NAME = 'tableaux-4001-ts.xlsx'
 FILE_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../data/' + FILE_NAME
@@ -24,12 +23,3 @@ def get_data() -> bool:
     raise Exception('Une erreur a eu lieu et le fichier n\'a pas été téléchargé')
 
 
-
-def parse_excel_sheets():
-    df = pd.read_excel(FILE_PATH, sheet_name=None)
-    output_csv = OutputCSV()
-
-    for sheet_name, sheet_df in df.items():
-        output_csv.addDepartement(sheet_df, sheet_name, sheet_df.columns)
-
-parse_excel_sheets()
