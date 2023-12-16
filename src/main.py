@@ -1,14 +1,12 @@
-import pandas as pd
-import plotly.express as px
 from dash.dependencies import Input, Output
-import os
 import dash
 from dash import dcc
 from dash import html
 from datetime import datetime
-import Graphs.Map as Map
+import Graphs.Carte as Carte
 import get_data
-import Graphs.MostCommonCrimes as MostCommonCrimes
+import Graphs.CamembertFaits as CamembertFaits
+import Graphs.HistogrammeParMois as HistogrammeParMois
 import numpy as np
 
 
@@ -27,11 +25,11 @@ def main():
     default_annee = 'Tout'
     default_departement = 'Tout'
     default_mois = 'Tout'
-    
+    default_fait = 'Tout'
     departements = np.append(data['num_departement'].unique(), default_departement)
     annees = np.append(data['annee'].unique(), default_annee)
     mois = np.append(data['mois'].unique(), default_mois)
-
+    faits = np.append(data['fait'].unique(), 'Tout')
     departements.sort()
     annees.sort()
     mois.sort()
@@ -55,7 +53,7 @@ def main():
         ),
         dcc.Graph(
             id='map_france',
-            figure=Map.get_map_graph(data, default_annee, default_departement),
+            figure=Carte.get_map_graph(data, default_annee, default_departement),
         )
         ]),
         
@@ -78,12 +76,44 @@ def main():
                     value=default_departement
                 )
             ])
-                
             ]),
             dcc.Graph(
                 id='most_common_crimes',
-                figure=MostCommonCrimes.get_most_common_crimes_pie_graph(data, default_annee, default_mois, default_departement),
-            )
+                figure=CamembertFaits.get_most_common_crimes_pie_graph(data, default_annee, default_mois, default_departement),
+            ),
+            html.Div(id='div_histogramme_par_mois', children=[
+                html.Div(id='histogramme_par_mois_options', children=[
+                    dcc.Dropdown(
+                        id='hpm-year-dropdown',
+                        options=[{'label': year, 'value': year} for year in annees],
+                        value=default_annee
+                    ),
+                    dcc.Dropdown(
+                        id='hpm-departement-dropdown',
+                        options=[{'label': departement, 'value': departement} for departement in departements],
+                        value=default_departement,
+                        multi=True
+                    ),
+                    
+                    dcc.Dropdown(
+                        id='hpm-fait-dropdown',
+                        options=[{'label': fait, 'value': fait} for fait in faits],
+                        value=default_fait
+                    )
+                ]),
+                dcc.Graph(
+                    id='histogramme_par_mois',
+                    figure=HistogrammeParMois.get_histogramme_graph(data, default_annee, default_departement, 'Tout'),
+                )
+            ]),
+            
+       
+       
+       
+       
+       
+       
+       
         ])
         
     
@@ -95,7 +125,7 @@ def main():
     Input('map_year_dropdown', 'value'),
     Input('map_month_dropdown', 'value'))
 def update_map_graph(year, month):
-    return Map.get_map_graph(data, year, month)
+    return Carte.get_map_graph(data, year, month)
 
 
 @app.callback(
@@ -104,7 +134,19 @@ def update_map_graph(year, month):
     Input('mcc-year-dropdown', 'value'),
     Input('mcc-departement-dropdown', 'value'))
 def update_most_common_crimes_pie_graph(month, year, departement):
-    return MostCommonCrimes.get_most_common_crimes_pie_graph(data, year, month, departement)
+    return CamembertFaits.get_most_common_crimes_pie_graph(data, year, month, departement)
+
+
+@app.callback(
+    Output('histogramme_par_mois', 'figure'),
+    Input('hpm-year-dropdown', 'value'),
+    Input('hpm-departement-dropdown', 'value'),
+    Input('hpm-fait-dropdown', 'value'))
+def update_histogramme_par_mois_graph(year, departements, fait):
+    print(departements)
+    if(departements == [] or departements == ['Tout']):
+        departements = 'Tout'  
+    return HistogrammeParMois.get_histogramme_graph(data, year, departements, fait)
 
 
 if __name__ == '__main__':
