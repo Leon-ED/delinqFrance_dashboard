@@ -1,13 +1,20 @@
-from dash.dependencies import Input, Output
-import dash
-from dash import dcc
-from dash import html
-from datetime import datetime
-import Graphs.Carte as Carte
-import get_data
-import Graphs.CamembertFaits as CamembertFaits
-import Graphs.HistogrammeParMois as HistogrammeParMois
-import numpy as np
+try:
+    from dash.dependencies import Input, Output
+    import dash
+    from dash import dcc
+    from dash import html
+    from datetime import datetime
+    import Graphs.Carte as Carte
+    import get_data
+    import Graphs.CamembertFaits as CamembertFaits
+    import Graphs.HistogrammeParMois as HistogrammeParMois
+    import numpy as np
+except Exception as e:
+    print("Erreur lors de l'importation des modules : " + str(e))
+    print("Veuillez installer les modules requis en exécutant la commande suivante dans le dossier racine du projet:")
+    print("pip install -r requirements.txt")
+    exit(1)
+
 
 
 debug = True

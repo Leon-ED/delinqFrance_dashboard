@@ -3,3 +3,5 @@ plotly_express
 pandas
 dash
 openpyxl
+alive-progress
+```
