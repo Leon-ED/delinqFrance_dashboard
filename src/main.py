@@ -23,25 +23,7 @@ data = get_data.get_global_dataframe()
 app = dash.Dash(__name__)
 
 
-   
-def main():
-    debug and print("Lancement du main")
-
-    debug and print("Données récupérées en " + str(datetime.now() - time))
-    
-    default_annee = 'Tout'
-    default_departement = 'Tout'
-    default_mois = 'Tout'
-    default_fait = 'Tout'
-    departements = np.append(data['num_departement'].unique(), default_departement)
-    annees = np.append(data['annee'].unique(), default_annee)
-    mois = np.append(data['mois'].unique(), default_mois)
-    faits = np.append(data['fait'].unique(), 'Tout')
-    departements.sort()
-    annees.sort()
-    mois.sort()
-    
-
+def layout(annees, mois, departements, faits, default_annee, default_mois, default_departement, default_fait):
     app.layout = html.Main(children=[
         html.H1(children='Delinquance en France', className='center'),
         
@@ -63,7 +45,6 @@ def main():
             figure=Carte.get_map_graph(data, default_annee, default_departement),
         )
         ]),
-        
         # Camembert des faits les plus communs
         html.Div(id='div_faits_les_plus_communs', children=[
             html.Div(id='most_common_crimes_options', children=[
@@ -83,11 +64,33 @@ def main():
                     value=default_departement
                 )
             ])
-            ]),
+            ,
             dcc.Graph(
                 id='most_common_crimes',
-                figure=CamembertFaits.get_most_common_crimes_pie_graph(data, default_annee, default_mois, default_departement),
-            ),
+                figure=CamembertFaits.get_common_crimes_pie_graph(data, default_annee, default_mois, default_departement, ascending=False),
+            )]),
+            html.Div(id='div_faits_les_moins_communs', children=[
+                html.Div(id='least_common_crimes_options', children=[
+                    dcc.Dropdown(
+                        id='lcc-month-dropdown',
+                        options=[{'label': month, 'value': month} for month in mois],
+                        value=default_mois
+                    ),
+                    dcc.Dropdown(
+                        id='lcc-year-dropdown',
+                        options=[{'label': year, 'value': year} for year in annees],
+                        value=default_annee
+                    ),
+                    dcc.Dropdown(
+                        id='lcc-departement-dropdown',
+                        options=[{'label': departement, 'value': departement} for departement in departements],
+                        value=default_departement
+                    )
+            ]),
+            dcc.Graph(
+                id='least_common_crimes',
+                figure=CamembertFaits.get_common_crimes_pie_graph(data, default_annee, default_mois, default_departement, ascending=True),
+            )]),
             html.Div(id='div_histogramme_par_mois', children=[
                 html.Div(id='histogramme_par_mois_options', children=[
                     dcc.Dropdown(
@@ -113,18 +116,36 @@ def main():
                     figure=HistogrammeParMois.get_histogramme_graph(data, default_annee, default_departement, 'Tout'),
                 )
             ]),
-            
-       
-       
-       
-       
-       
-       
-       
         ])
-        
+
+
+
+   
+def main():
+    debug and print("Lancement du main")
+
+    debug and print("Données récupérées en " + str(datetime.now() - time))
+    
+    # Paramètres par défaut des dropdowns
+    default_annee = 'Tout'
+    default_departement = 'Tout'
+    default_mois = 'Tout'
+    default_fait = 'Tout'
+
+
+    departements = np.append(data['num_departement'].unique(), default_departement)
+    annees = np.append(data['annee'].unique(), default_annee)
+    mois = np.append(data['mois'].unique(), default_mois)
+    faits = np.append(data['fait'].unique(), 'Tout')
+    departements.sort()
+    annees.sort()
+    mois.sort()
     
 
+    layout(annees, mois, departements, faits, default_annee, default_mois, default_departement, default_fait)
+
+
+    
     app.run_server(debug=True)
 
 @app.callback(
@@ -141,7 +162,17 @@ def update_map_graph(year, month):
     Input('mcc-year-dropdown', 'value'),
     Input('mcc-departement-dropdown', 'value'))
 def update_most_common_crimes_pie_graph(month, year, departement):
-    return CamembertFaits.get_most_common_crimes_pie_graph(data, year, month, departement)
+    return CamembertFaits.get_common_crimes_pie_graph(data, year, month, departement, ascending=False)
+
+@app.callback(
+    Output('least_common_crimes', 'figure'),
+    Input('lcc-month-dropdown', 'value'),
+    Input('lcc-year-dropdown', 'value'),
+    Input('lcc-departement-dropdown', 'value'))
+def update_least_common_crimes_pie_graph(month, year, departement):
+    return CamembertFaits.get_common_crimes_pie_graph(data, year, month, departement, ascending=True)
+
+
 
 
 @app.callback(
@@ -150,7 +181,6 @@ def update_most_common_crimes_pie_graph(month, year, departement):
     Input('hpm-departement-dropdown', 'value'),
     Input('hpm-fait-dropdown', 'value'))
 def update_histogramme_par_mois_graph(year, departements, fait):
-    print(departements)
     if(departements == [] or departements == ['Tout']):
         departements = 'Tout'  
     return HistogrammeParMois.get_histogramme_graph(data, year, departements, fait)
