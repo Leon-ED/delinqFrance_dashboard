@@ -9,7 +9,7 @@ from datetime import datetime
 import Graphs.Map as Map
 import get_data
 import Graphs.MostCommonCrimes as MostCommonCrimes
-
+import numpy as np
 
 
 debug = True
@@ -24,14 +24,18 @@ def main():
 
     debug and print("Données récupérées en " + str(datetime.now() - time))
     
-    departements = data['num_departement'].unique()
-    annees = data['annee'].unique()
-    mois = data['mois'].unique()
-    
-    
     default_annee = 'Tout'
     default_departement = 'Tout'
     default_mois = 'Tout'
+    
+    departements = np.append(data['num_departement'].unique(), default_departement)
+    annees = np.append(data['annee'].unique(), default_annee)
+    mois = np.append(data['mois'].unique(), default_mois)
+
+    departements.sort()
+    annees.sort()
+    mois.sort()
+    
 
     app.layout = html.Main(children=[
         html.H1(children='Delinquance en France', className='center'),

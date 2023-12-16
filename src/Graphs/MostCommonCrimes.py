@@ -24,17 +24,23 @@ def get_most_common_crimes(dataframe, limit=10):
     df = df.sort_values(by="nombre", ascending=False)
     return df.head(limit)
 
-def get_most_common_crimes_byDate_departement(dataframe,annee, mois, departement, limit=10):
-    if(annee == "Tout"):
-        annee = True
-    if(mois == "Tout"):
-        mois = True
-    if(departement == "Tout"):
-        departement = True
+def get_most_common_crimes_byDate_departement(dataframe, annee, mois, departement, limit=10):
+    if annee == "Tout":
+        annee_condition = True
+    else:
+        annee_condition = (dataframe['annee'] == annee)
+    
+    if mois == "Tout":
+        mois_condition = True
+    else:
+        mois_condition = (dataframe['mois'] == mois)
+    
+    if departement == "Tout":
+        departement_condition = True
+    else:
+        departement_condition = (dataframe['num_departement'] == departement)
  
-    new_df = dataframe[(dataframe['annee'] == annee) & (dataframe['mois'] == mois) & (dataframe['num_departement'] == departement)].groupby("fait")[["nombre"]].sum().reset_index()
+    new_df = dataframe[annee_condition & mois_condition & departement_condition].groupby("fait")[["nombre"]].sum().reset_index()
     new_df = new_df.sort_values(by="nombre", ascending=False)
     return new_df.head(limit)
-
-
 
