@@ -1,3 +1,19 @@
+"""
+Module Parser.py
+----------
+Parse le fichier Excel et le sauvegarde dans un fichier CSV.
+
+Auteur
+---------
+Léon E.
+
+Fonctions
+---------
+- parse_excel(to_csv=False)
+    Parse le fichier Excel et le sauvegarde dans un fichier CSV si to_csv est True.
+"""
+
+
 import pandas as pd
 import os
 from alive_progress import alive_bar
@@ -11,6 +27,21 @@ EXPORT_PATH = DATA_FOLDER + 'output.csv'
 
 
 def parse_excel(to_csv=False):
+    """
+    parse_excel(to_csv=False)
+    ------
+    Analyse le fichier Excel pour avoir un format plus simple à manipuler et à exploiter.
+    Args:
+    ------
+    
+        - to_csv (bool, optional):
+            Si True, sauvegarde le fichier dans un fichier CSV. Sinon, retourne le DataFrame.
+        
+    Returns:
+    ------
+        - DataFrame si to_csv est False.
+        - None si to_csv est True.
+    """
     xls = pd.ExcelFile(IMPORT_FILE)
     datas = []
     print("Traitement du fichier Excel...")

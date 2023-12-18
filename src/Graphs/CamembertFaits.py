@@ -1,21 +1,27 @@
+"""
+Module CamembertFaits.py
+----------
+Gère les graphiques et les données des camemberts des faits les plus et moins communs.
+
+Auteur
+---------
+Léon E.
+
+Fonctions
+---------
+- get_common_crimes_pie_graph(dataframe,annee, mois, departement, limit=10, ascending = False)
+    Retourne un graphique camembert des faits les plus/moins communs.
+    
+- get_crimes(dataframe, limit=10, ascending = False)
+    Retourne un dataframe des faits les plus/moins communs.
+    
+- get_crimes_byDate_departement(dataframe, annee, mois, departement, limit=10, ascending = False)
+    Retourne un dataframe des faits les plus/moins communs en fonction de la date et du département.
+
+"""
+
+
 import plotly.express as px
-
-
-def get_least_common_crimes_pie_graph(dataframe,annee, mois, departement):
-    if(any(arg != 'Tout' for arg in (annee, mois, departement))):
-        reduced_data_frame = get_crimes_byDate_departement(dataframe,annee, mois, departement, limit=10, ascending = True)
-    else:
-        reduced_data_frame = get_crimes(dataframe, limit=10, ascending = True)
-    
-    graph = px.pie(
-        reduced_data_frame,
-        values="nombre",
-        names="fait",
-        title="Les 10 faits les moins communs",
-        )
-    
-    return graph
-
 
 
 def get_common_crimes_pie_graph(dataframe,annee, mois, departement, limit=10, ascending = False):

@@ -1,3 +1,19 @@
+"""
+Module Utils.py
+----------
+Gère les fonctions et les classes utilitaires.
+
+Auteur
+---------
+Léon E.
+
+Classes
+---------
+- Colors
+    Différentes couleurs pour les messages dans la console
+"""
+
+
 class Colors:
     """
     Différentes couleurs pour les messages dans la console
