@@ -25,7 +25,7 @@ def get_common_crimes_pie_graph(dataframe,annee, mois, departement, limit=10, as
         reduced_data_frame = get_crimes(dataframe, limit=limit, ascending = ascending)
     
 
-    title = f"Les {limit} faits les { 'plus' if ascending else 'moins'} communs"
+    title = f"Les {limit} faits les { 'moins' if ascending else 'plus'} communs"
     graph = px.pie(
         reduced_data_frame,
         values="nombre",
