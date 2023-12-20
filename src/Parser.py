@@ -88,5 +88,5 @@ def parse_datas(to_csv=False):
     
     
 if __name__ == '__main__':
-    parse_excel(to_csv=True)
+    parse_datas(to_csv=True)
     print("Fin du programme")
