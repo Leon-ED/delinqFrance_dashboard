@@ -55,13 +55,18 @@ def layout(annees, mois, departements, faits, default_annee, default_mois, defau
                         options=[{'label': month, 'value': month} for month in mois],
                         value=default_mois
                     ),
+                    dcc.Dropdown(
+                        id='map_fait_dropdown',
+                        options=[{'label': fait, 'value': fait} for fait in faits],
+                        value=default_mois
+                    ),
                     ]),
                 
                 # Carte de la France
                 html.Div(id='sec_map_france_content', children=[
                     dcc.Graph(
                         id='map_france',
-                        figure=Carte.get_map_graph(data, default_annee, default_departement),
+                        figure=Carte.get_map_graph(data, default_annee, default_departement,default_fait),
                     )
                     ]),
             ]),
@@ -189,9 +194,10 @@ def main():
 @app.callback(
     Output('map_france', 'figure'),
     Input('map_year_dropdown', 'value'),
-    Input('map_month_dropdown', 'value'))
-def update_map_graph(year, month):
-    return Carte.get_map_graph(data, year, month)
+    Input('map_month_dropdown', 'value'),
+    Input('map_fait_dropdown', 'value'))
+def update_map_graph(year, month,fait):
+    return Carte.get_map_graph(data, year, month,fait)
 
 
 @app.callback(

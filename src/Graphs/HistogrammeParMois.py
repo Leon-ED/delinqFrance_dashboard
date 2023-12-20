@@ -30,7 +30,7 @@ def get_histogramme_graph(dataframe, annee, departement, fait):
     
     graph = px.histogram(
         df,
-        x="mois",  # Swap x and y to have months on the x-axis
+        x="mois", 
         y="nombre",
         color="num_departement",
         title="Nombre de délits par mois et par département",

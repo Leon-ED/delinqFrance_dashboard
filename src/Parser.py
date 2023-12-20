@@ -1,7 +1,7 @@
 """
 Module Parser.py
 ----------
-Parse le fichier Excel et le sauvegarde dans un fichier CSV.
+Parse les données téléchargées
 
 Auteur
 ---------
@@ -9,28 +9,26 @@ Léon E.
 
 Fonctions
 ---------
-- parse_excel(to_csv=False)
-    Parse le fichier Excel et le sauvegarde dans un fichier CSV si to_csv est True.
+- parse_datas(to_csv=False)
+    Parse le fichier récupéré sur data.gouv.fr et le sauvegarde dans un fichier CSV si to_csv est True.
 """
 
 
 import pandas as pd
 import os
+import get_data
 from alive_progress import alive_bar
 
 
 # Constantes
 DATA_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/../data/'
-IMPORT_FILE = DATA_FOLDER + 'tableaux-4001-ts.xlsx'
 EXPORT_PATH = DATA_FOLDER + 'output.csv'
 
-
-
-def parse_excel(to_csv=False):
+def parse_datas(to_csv=False):
     """
-    parse_excel(to_csv=False)
+    parse_datas(to_csv=False)
     ------
-    Analyse le fichier Excel pour avoir un format plus simple à manipuler et à exploiter.
+    Parse le fichier récupéré sur data.gouv.fr
     Args:
     ------
     
@@ -42,13 +40,13 @@ def parse_excel(to_csv=False):
         - DataFrame si to_csv est False.
         - None si to_csv est True.
     """
-    xls = pd.ExcelFile(IMPORT_FILE)
+    xls =  get_data.get_main_data()
     datas = []
-    print("Traitement du fichier Excel...")
+    print("Début du traitement des données...")
     # Pour chaque feuille ... 
     with alive_bar(96) as bar:
         for sheet_name in xls.sheet_names:
-            df = pd.read_excel(IMPORT_FILE, sheet_name)
+            df = pd.read_excel(xls, sheet_name)
 
             # On récupère le numéro du département et on garde aussi la France entière
             # pour permettre de consulter les données au niveau national sans avoir à les calculer nous-même
@@ -74,14 +72,21 @@ def parse_excel(to_csv=False):
     # Champ pour notre DataFrame final
     output_data = pd.DataFrame(datas, columns=['num_departement', 'mois', 'annee', 'fait', 'nombre','population'])
 
-    if not to_csv:
-        return output_data
+    if to_csv:
     # Sauvegarder le DataFrame dans un fichier CSV
-    print("Sauvegarde du fichier CSV...")
-    try:
-        output_data.to_csv(EXPORT_PATH, index=False,sep=";")
-    except Exception as e:
-        print(f"Erreur lors de la sauvegarde du fichier CSV : {e}")
-        exit(1)
+        print("Sauvegarde du fichier CSV...")
+        try:
+            output_data.to_csv(EXPORT_PATH, index=False,sep=";")
+            print(f"Le fichier CSV a été créé avec succès : {EXPORT_PATH}")    
+        except Exception as e:
+            print(f"Erreur lors de la sauvegarde du fichier CSV : {e}")
+            exit(1)
+    
+    return output_data
 
-    print(f"Le fichier CSV a été créé avec succès : {EXPORT_PATH}")
+    
+    
+    
+if __name__ == '__main__':
+    parse_excel(to_csv=True)
+    print("Fin du programme")
