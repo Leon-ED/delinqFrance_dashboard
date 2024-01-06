@@ -46,12 +46,12 @@ Callback Functions
 """
 
 # Imports locaux
-import Utils
-import Graphs.Carte as Carte
+import src.Utils as Utils
+import src.Graphs.Carte as Carte
 import get_data
-import Graphs.CamembertFaits as CamembertFaits
-import Graphs.HistogrammeParMois as HistogrammeParMois
-import Graphs.DelitsCrimesParAnnees as DelitsCrimesParAnnees
+import src.Graphs.CamembertFaits as CamembertFaits
+import src.Graphs.HistogrammeParMois as HistogrammeParMois
+import src.Graphs.DelitsCrimesParAnnees as DelitsCrimesParAnnees
 
 # Imports standards
 from datetime import datetime
