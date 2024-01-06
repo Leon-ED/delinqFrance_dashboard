@@ -107,7 +107,7 @@ def get_global_dataframe() -> pd.DataFrame:
     types = {'num_departement': str, 'mois': str, 'annee': str, 'fait': str, 'nombre': int, 'population': int, 'nom_departement': str}
     
     # check if file exists
-    if not os.path.isfile(current_dir + '/../data/output.csv'):
+    if not os.path.isfile(current_dir + '/data/output.csv'):
         print("Le fichier CSV n'existe pas, il va être créé...")
         parse_datas(to_csv=True)
     
