@@ -29,7 +29,7 @@ import os
 from alive_progress import alive_bar
 
 # Constantes
-DATA_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/../data/'
+DATA_FOLDER = os.path.dirname(os.path.abspath(__file__)) + './data/'
 
 DATA_URL = 'https://www.data.gouv.fr/fr/datasets/r/fdf5afbf-ed3c-4c54-a4f0-3581c8a1eca4'
 """
