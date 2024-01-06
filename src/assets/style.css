@@ -4,12 +4,12 @@
 }
 body{
     font-family: 'Roboto', sans-serif;
-    background-color: var(--bg-color);
-    margin: 0;
+    margin: 0 50px;
     padding: 0;
 }
 
 nav{
     background-color: white;
     padding: 10px 0px;
+    border-bottom: 1px solid #242121;
 }
