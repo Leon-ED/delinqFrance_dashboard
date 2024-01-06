@@ -56,7 +56,7 @@ Lors du lancement du `main.py`, le script va regarder si des données sont déj�
 Il est quand même possible de faire appel au `get_data.py` manuellement.
 
 > [!NOTE]
-> Le traitement des données téléchargées par get_data.py peut prendre entre 10secondes et 1 minute selon la machine
+> Le traitement des données téléchargées par get_data.py peut prendre entre 10secondes et 1 minute selon la machine. Cela sert de 'cache' et permet ensuite de lancer le dashboard instantanément 
 
 ### Architecture du Code
 
