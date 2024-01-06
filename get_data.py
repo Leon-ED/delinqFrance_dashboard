@@ -111,7 +111,7 @@ def get_global_dataframe() -> pd.DataFrame:
         print("Le fichier CSV n'existe pas, il va être créé...")
         parse_datas(to_csv=True)
     
-    df = pd.read_csv(current_dir + '/../data/output.csv', sep=';', dtype=types)
+    df = pd.read_csv(current_dir + '/data/output.csv', sep=';', dtype=types)
 
     return df
 
