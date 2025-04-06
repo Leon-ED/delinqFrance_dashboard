@@ -355,5 +355,4 @@ def update_delits_crimes_par_annees_graph(fait, departement):
 
 
 
-if __name__ == '__main__':
-    main()
+server = app.server

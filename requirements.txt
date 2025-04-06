@@ -4,3 +4,4 @@ pandas
 dash
 openpyxl
 alive-progress
+gunicorn
