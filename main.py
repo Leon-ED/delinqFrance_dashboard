@@ -301,7 +301,6 @@ def main():
 
 
     
-    app.run(host="0.0.0.0", port=8050, debug=False)
 
 
 
@@ -354,5 +353,5 @@ def update_delits_crimes_par_annees_graph(fait, departement):
 
 
 
-
+main()
 server = app.server
