@@ -1,11 +1,8 @@
-version: '3.8'
 services:
   app:
     build: .
     container_name: dash_app
-    expose:
-      - "8050"
+    ports:
+      - "8050:8050"  # <--- expose 8050 au système
     networks:
       - appnet
-networks:
-  appnet:
