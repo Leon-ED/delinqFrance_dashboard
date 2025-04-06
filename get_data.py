@@ -40,7 +40,7 @@ DATA_URL2 = 'https://www.insee.fr/fr/statistiques/fichier/7739582/ensemble.xlsx'
 """
     Url du fichier secondaire (Population par département)
 """
-EXPORT_PATH = DATA_FOLDER + 'output.csv'
+EXPORT_PATH = os.path.join(DATA_FOLDER, 'output.csv')
 
 
 
