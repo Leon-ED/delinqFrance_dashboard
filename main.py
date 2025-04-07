@@ -81,7 +81,7 @@ app = dash.Dash(__name__)
 
 def layout(annees, mois, departements, faits, default_annee, default_mois, default_departement, default_fait):
     map_france,map_idf = Carte.get_map_graph(data, default_annee, default_departement,default_fait,-1)
-
+    app.title = 'Dashboard des crimes et délits en France entre 1996 et le premier trimestre 2022'
     app.layout = html.Div(children=[
         # Header de la page
         html.Header(children=[
